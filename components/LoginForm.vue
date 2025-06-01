@@ -44,7 +44,6 @@ async function handleLogin() {
     const data = await response.json();
 
     if (!response.ok) {
-      toast.error(data.error || "Login failed");
       throw new Error(data.error || "Login failed");
     }
 

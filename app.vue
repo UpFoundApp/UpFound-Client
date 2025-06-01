@@ -9,4 +9,13 @@
 
 <script setup>
 import Navbar from "./components/layout/Navbar.vue";
+useHead({
+  title: "Upfound",
+  meta: [
+    {
+      name: "description",
+      content: "Upfound - Discover and share amazing products",
+    },
+  ],
+});
 </script>
