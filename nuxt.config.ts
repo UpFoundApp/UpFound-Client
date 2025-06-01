@@ -5,16 +5,28 @@ export default defineNuxtConfig({
     dirs: [],
     autoImport: true,
   },
+
   compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
   css: ["~/assets/css/global.css"],
+
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
   },
+  shadcn: {
+    prefix: "",
+    componentDir: "./components/ui",
+  },
+
   vite: {
     plugins: [],
+  },
+
+  modules: ["shadcn-nuxt"],
+  runtimeConfig: {
+    public: { apiUrl: process.env.NUXT_API_URL },
   },
 });
