@@ -21,9 +21,6 @@ const password = ref("");
 const showPassword = ref(false);
 const isLoading = ref(false);
 
-const router = useRouter();
-
-// Form submission
 async function handleLogin() {
   if (!email.value || !password.value) {
     toast.error("Please enter both email and password");

@@ -20,20 +20,11 @@
       <!-- Desktop Navigation -->
       <nav class="hidden md:flex items-center gap-6">
         <NuxtLink
-          to="/explore"
-          class="text-zinc-400 hover:text-white transition-colors"
-          :class="{
-            'text-orange-500 font-medium': $route.path.includes('/explore'),
-          }"
-        >
-          Explore
-        </NuxtLink>
-        <NuxtLink
           to="/submit"
           class="text-zinc-400 hover:text-white transition-colors"
           :class="{ 'text-orange-500 font-medium': $route.path === '/submit' }"
         >
-          Submit
+          Submit Product
         </NuxtLink>
       </nav>
 
@@ -181,20 +172,12 @@
     >
       <div class="px-2 pt-2 pb-3 space-y-1">
         <NuxtLink
-          to="/explore"
-          class="block px-3 py-2 rounded-md text-base font-medium text-zinc-300 hover:text-white hover:bg-zinc-700 transition-colors"
-          :class="{
-            'bg-zinc-700 text-white': $route.path.includes('/explore'),
-          }"
-          @click="showMobileMenu = false"
-          >Explore</NuxtLink
-        >
-        <NuxtLink
           to="/submit"
           class="block px-3 py-2 rounded-md text-base font-medium text-zinc-300 hover:text-white hover:bg-zinc-700 transition-colors"
           :class="{ 'bg-zinc-700 text-white': $route.path === '/submit' }"
           @click="showMobileMenu = false"
-          >Submit</NuxtLink
+        >
+          Submit Product</NuxtLink
         >
       </div>
     </div>

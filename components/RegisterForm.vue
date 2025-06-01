@@ -13,36 +13,31 @@ import { ref, computed } from "vue";
 import { toast } from "vue3-toastify";
 import { useRouter } from "vue-router";
 
-// Get API base URL from runtime config
 const runtimeConfig = useRuntimeConfig();
 const baseUrl = runtimeConfig.public.apiUrl;
 const router = useRouter();
 const isLoading = ref(false);
 
-// Form data
 const name = ref("");
 const email = ref("");
 const password = ref("");
 const showPassword = ref(false);
 
-// Password strength calculation
 const passwordStrength = computed(() => {
   const pwd = password.value;
   if (!pwd) return 0;
 
   let score = 0;
 
-  // Length check
   if (pwd.length >= 8) score += 1;
   if (pwd.length >= 12) score += 1;
 
-  // Complexity checks
-  if (/[A-Z]/.test(pwd)) score += 1; // Has uppercase
-  if (/[a-z]/.test(pwd)) score += 1; // Has lowercase
-  if (/[0-9]/.test(pwd)) score += 1; // Has number
-  if (/[^A-Za-z0-9]/.test(pwd)) score += 1; // Has special char
+  if (/[A-Z]/.test(pwd)) score += 1;
+  if (/[a-z]/.test(pwd)) score += 1;
+  if (/[0-9]/.test(pwd)) score += 1;
+  if (/[^A-Za-z0-9]/.test(pwd)) score += 1;
 
-  return Math.min(score, 5); // Max score of 5
+  return Math.min(score, 5);
 });
 
 const strengthText = computed(() => {
@@ -65,9 +60,8 @@ const strengthColor = computed(() => {
   return "bg-green-500";
 });
 
-// Form validation
 const isValidEmail = computed(() => {
-  if (!email.value) return true; // Don't show error for empty field
+  if (!email.value) return true;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email.value);
 });
@@ -76,9 +70,7 @@ const isValidPassword = computed(() => {
   return !password.value || passwordStrength.value >= 3;
 });
 
-// Form submission
 async function handleSubmit() {
-  // Validate form
   if (!name.value || !email.value || !password.value) {
     toast.error("Please fill in all required fields");
     return;
@@ -97,7 +89,6 @@ async function handleSubmit() {
   isLoading.value = true;
 
   try {
-    // Make API request to register user
     const response = await fetch(`${baseUrl}/users/register`, {
       method: "POST",
       headers: {
@@ -148,7 +139,6 @@ async function handleSubmit() {
     </CardHeader>
     <CardContent>
       <form @submit.prevent="handleSubmit" class="grid gap-4">
-        <!-- Name field -->
         <div class="grid gap-2">
           <Label for="name" class="text-zinc-300">Full Name</Label>
           <Input
@@ -162,7 +152,6 @@ async function handleSubmit() {
           />
         </div>
 
-        <!-- Email field -->
         <div class="grid gap-2">
           <Label for="email" class="text-zinc-300">Email</Label>
           <Input
@@ -185,7 +174,6 @@ async function handleSubmit() {
           </p>
         </div>
 
-        <!-- Password field -->
         <div class="grid gap-2">
           <Label for="password" class="text-zinc-300">Password</Label>
           <div class="relative">
@@ -238,7 +226,6 @@ async function handleSubmit() {
             </button>
           </div>
 
-          <!-- Password strength indicator -->
           <div class="mt-2 space-y-2" v-if="password">
             <div class="flex justify-between items-center">
               <div class="text-xs text-zinc-400">
@@ -347,7 +334,6 @@ async function handleSubmit() {
           </div>
         </div>
 
-        <!-- Submit button -->
         <Button
           type="submit"
           :disabled="isLoading"
@@ -380,7 +366,6 @@ async function handleSubmit() {
         </Button>
       </form>
 
-      <!-- Login link -->
       <div class="mt-4 text-center text-sm text-zinc-400">
         Already have an account?
         <NuxtLink to="/login" class="text-orange-400 hover:underline">

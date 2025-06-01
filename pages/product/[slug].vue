@@ -1,6 +1,5 @@
 <template>
   <div v-if="!error" class="min-h-screen bg-zinc-900 text-white">
-    <!-- Loading state -->
     <div v-if="isLoading" class="flex justify-center items-center h-[60vh]">
       <div class="flex flex-col items-center">
         <svg
@@ -27,7 +26,6 @@
       </div>
     </div>
 
-    <!-- Error state -->
     <div v-else-if="error" class="flex justify-center items-center h-[60vh]">
       <div class="text-center">
         <svg
@@ -54,9 +52,7 @@
       </div>
     </div>
 
-    <!-- Product content -->
     <template v-else>
-      <!-- Image Modal -->
       <div
         v-if="selectedImage"
         class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
@@ -99,10 +95,8 @@
         </div>
       </div>
 
-      <!-- Main content -->
       <main class="px-4 py-6">
         <div class="max-w-screen-xl mx-auto">
-          <!-- Logo, title and visit website -->
           <div
             class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6"
           >
@@ -148,7 +142,6 @@
             </div>
           </div>
 
-          <!-- Categories -->
           <div class="flex flex-wrap gap-2 mb-6">
             <span
               v-for="cat in product.categories"
@@ -159,9 +152,7 @@
             </span>
           </div>
 
-          <!-- Main image gallery -->
           <div class="mb-8">
-            <!-- Single image case -->
             <div
               v-if="product.images && product.images.length === 1"
               class="cursor-pointer"
@@ -174,12 +165,10 @@
               />
             </div>
 
-            <!-- Multiple images gallery (horizontal scroll) -->
             <div
               v-else-if="product.images && product.images.length > 1"
               class="relative"
             >
-              <!-- Main/featured image -->
               <div
                 class="mb-3 cursor-pointer"
                 @click="openImageModal(product.images[0])"
@@ -191,14 +180,11 @@
                 />
               </div>
 
-              <!-- Horizontal scroll gallery with faded edges -->
               <div class="relative">
-                <!-- Left fade effect -->
                 <div
                   class="absolute left-0 top-0 bottom-0 w-12 z-10 bg-gradient-to-r from-zinc-900 to-transparent pointer-events-none"
                 ></div>
 
-                <!-- Scrollable container -->
                 <div
                   class="overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory flex gap-3"
                 >
@@ -214,7 +200,6 @@
                       class="w-full h-full object-cover bg-zinc-800 border border-zinc-700 rounded-md hover:opacity-90 transition-opacity"
                     />
 
-                    <!-- "More images" overlay on the last visible image -->
                     <div
                       v-if="
                         index === product.images.length - 2 &&
@@ -229,14 +214,12 @@
                   </div>
                 </div>
 
-                <!-- Right fade effect -->
                 <div
                   class="absolute right-0 top-0 bottom-0 w-12 z-10 bg-gradient-to-l from-zinc-900 to-transparent pointer-events-none"
                 ></div>
               </div>
             </div>
 
-            <!-- No images placeholder -->
             <div
               v-else
               class="w-full h-[400px] bg-zinc-800 border border-zinc-700 rounded-md flex items-center justify-center"
@@ -245,7 +228,6 @@
             </div>
           </div>
 
-          <!-- Tab navigation -->
           <div class="border-b border-zinc-800 mb-8">
             <nav class="flex space-x-8">
               <button
@@ -256,19 +238,17 @@
             </nav>
           </div>
 
-          <!-- Description -->
           <div class="max-w-3xl mb-8">
             <p class="mb-4 text-zinc-300">{{ product.description }}</p>
           </div>
 
-          <!-- Product info -->
           <div class="">
             <div
               class="py-4 border-t border-zinc-800 flex items-center justify-start gap-3"
             >
               <span class="text-sm text-zinc-400">Submitted By</span>
               <NuxtLink
-                :to="`/profile/${product.submittedBy?._id || ''}`"
+                :to="`/profile/${product.submittedBy?.userId || ''}`"
                 class="group inline-block relative cursor-pointer"
               >
                 <p
@@ -283,7 +263,6 @@
             </div>
           </div>
 
-          <!-- Comment section -->
           <div class="max-w-3xl mb-8">
             <div class="border-t border-zinc-800 pt-6">
               <div class="flex items-center justify-between mb-6">
@@ -318,7 +297,6 @@
                 </div>
               </div>
 
-              <!-- Comment input -->
               <div class="flex gap-3 mb-6">
                 <div
                   class="w-10 h-10 rounded-full bg-zinc-700 flex-shrink-0 flex items-center justify-center"
@@ -376,7 +354,6 @@
                 </div>
               </div>
 
-              <!-- Comments section with loading and error states -->
               <div
                 v-if="isLoadingComments && !allComments.length"
                 class="flex justify-center py-8"
@@ -406,7 +383,6 @@
                 </div>
               </div>
 
-              <!-- Error state -->
               <div v-else-if="commentsError" class="text-center py-6">
                 <p class="text-zinc-400 mb-2">{{ commentsError }}</p>
                 <button
@@ -417,7 +393,6 @@
                 </button>
               </div>
 
-              <!-- Comments list -->
               <div v-else-if="allComments.length > 0" class="space-y-6">
                 <div
                   v-for="comment in visibleComments"
@@ -442,7 +417,6 @@
                   </div>
                 </div>
 
-                <!-- Loading more indicator -->
                 <div v-if="isLoadingComments" class="flex justify-center py-4">
                   <svg
                     class="animate-spin h-6 w-6 text-orange-500"
@@ -466,7 +440,6 @@
                   </svg>
                 </div>
 
-                <!-- Load more button -->
                 <div
                   v-if="hasMoreComments && !isLoadingComments"
                   class="flex justify-center mt-6"
@@ -480,7 +453,6 @@
                 </div>
               </div>
 
-              <!-- No comments state -->
               <div
                 v-else
                 class="py-10 flex flex-col items-center justify-center text-center"
@@ -532,12 +504,12 @@
 <script setup>
 import { Triangle, VenetianMask, ShieldAlert } from "lucide-vue-next";
 import { ref, computed, onMounted, watch } from "vue";
+import { toast } from "vue3-toastify";
 
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const baseUrl = runtimeConfig.public.apiUrl;
 
-// Product state
 const product = ref({});
 const isLoading = ref(true);
 const error = ref(null);
@@ -546,7 +518,6 @@ const isLoggedIn = ref(false);
 const userInitial = ref("A");
 const token = ref("");
 
-// Image modal
 const selectedImage = ref(null);
 
 function openImageModal(imageUrl) {
@@ -558,16 +529,14 @@ const hasUpvoted = ref(false);
 
 const toggleUpvote = async () => {
   if (!isLoggedIn.value) {
-    alert("Please login to upvote");
+    toast.error("Please login to upvote");
     return;
   }
 
   try {
-    // Optimistic UI update
     hasUpvoted.value = !hasUpvoted.value;
     upvotes.value += hasUpvoted.value ? 1 : -1;
 
-    // Make API call
     const response = await fetch(
       `${baseUrl}/products/${product.value._id}/upvote`,
       {
@@ -583,23 +552,17 @@ const toggleUpvote = async () => {
       throw new Error(`Failed to update upvote: ${response.status}`);
     }
   } catch (err) {
-    // Revert on failure
-    console.error("Failed to update upvote:", err);
     hasUpvoted.value = !hasUpvoted.value;
     upvotes.value += hasUpvoted.value ? 1 : -1;
-
-    // Show error to user
-    alert("Failed to update upvote. Please try again.");
+    toast.error("Failed to update upvote. Please try again.");
   }
 };
 
-// Comments functionality
 const allComments = ref([]);
 const isLoadingComments = ref(false);
 const commentsError = ref(null);
 const commentsTotal = ref(0);
 
-// Comments pagination (using limit/offset for API)
 const commentsLimit = 5;
 const commentsOffset = ref(0);
 
@@ -611,7 +574,6 @@ const hasMoreComments = computed(() => {
   return allComments.value.length < commentsTotal.value;
 });
 
-// Load more comments
 async function loadMoreComments() {
   if (isLoadingComments.value) return;
 
@@ -619,18 +581,15 @@ async function loadMoreComments() {
   await fetchComments(true);
 }
 
-// Fetch comments for the product
 async function fetchComments(append = false) {
   isLoadingComments.value = true;
   commentsError.value = null;
 
   try {
-    // Build query parameters
     const params = new URLSearchParams();
     params.append("limit", commentsLimit);
     params.append("offset", commentsOffset.value);
 
-    // API call
     const response = await fetch(
       `${baseUrl}/products/${product.value._id}/comments?${params.toString()}`
     );
@@ -670,7 +629,7 @@ const isSubmittingComment = ref(false);
 
 async function submitComment() {
   if (!isLoggedIn.value) {
-    alert("Please login to comment");
+    toast.error("Please login to comment");
     return;
   }
 
@@ -688,7 +647,7 @@ async function submitComment() {
         },
         body: JSON.stringify({
           content: newComment.value.trim(),
-          author: localStorage.getItem("userId") || "",
+          authorId: localStorage.getItem("userId") || "",
         }),
       }
     );
@@ -697,26 +656,22 @@ async function submitComment() {
       throw new Error(`Error posting comment: ${response.status}`);
     }
 
-    // Reset pagination and refetch comments to show the new comment
     commentsOffset.value = 0;
     await fetchComments(false);
 
-    // Clear the input
     newComment.value = "";
   } catch (err) {
     console.error("Failed to submit comment:", err);
-    alert("Failed to submit your comment. Please try again.");
+    toast.error("Failed to submit your comment. Please try again.");
   } finally {
     isSubmittingComment.value = false;
   }
 }
-// Fetch product data by ID
 const fetchProduct = async () => {
   isLoading.value = true;
   error.value = null;
 
   try {
-    // Fetch product from API using the slug from the route
     const response = await fetch(`${baseUrl}/products/${route.params.slug}`, {
       headers: {
         Authorization: `Bearer ${token.value}`,
@@ -734,23 +689,19 @@ const fetchProduct = async () => {
 
     const data = await response.json();
 
-    // Map API response to our component's expected structure
     product.value = {
       ...data,
-      categories: data.category ? [data.category] : [], // Convert single category to array
-      images: data.medias || [], // Map medias to images
+      categories: data.category ? [data.category] : [],
+      images: data.medias || [],
     };
 
-    // Set upvotes from data
     upvotes.value = data.upvotes || 0;
     hasUpvoted.value = data.isUpvoted || false;
 
-    // Reset comments state
     allComments.value = [];
     commentsOffset.value = 0;
     commentsTotal.value = data.comments || 0;
 
-    // Fetch comments for this product
     if (data._id) {
       await fetchComments();
     }
@@ -763,7 +714,6 @@ const fetchProduct = async () => {
   }
 };
 
-// Format relative time
 function formatRelativeTime(dateString) {
   const date = new Date(dateString);
   const now = new Date();
@@ -771,7 +721,6 @@ function formatRelativeTime(dateString) {
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
   if (diffDays === 0) {
-    // Within last 24 hours
     const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
     if (diffHours === 0) {
       const diffMinutes = Math.floor(diffTime / (1000 * 60));
@@ -798,7 +747,6 @@ const checkLoggedIn = () => {
   }
 };
 
-// Watch route changes to refetch data when navigating between products
 watch(
   () => route.params.slug,
   (newSlug, oldSlug) => {
